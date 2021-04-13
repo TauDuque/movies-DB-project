@@ -1,0 +1,22 @@
+{
+    "editor.autoClosingBrackets": "always",
+    "editor.autoClosingOvertype": "always",
+    "editor.autoClosingQuotes": "always",
+    "editor.autoIndent": "advanced",
+    "vsintellicode.features.python.deepLearning": "enabled",
+    "prettier.enableDebugLogs": true,
+    "quokka.automaticRestart": true,
+    "eslint.alwaysShowStatus": true,
+    "eslint.format.enable": true,
+    "eslint.probe": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "html",
+        "vue",
+        "markdown",
+        "reactjs"
+    ],
+    "emmet.showSuggestionsAsSnippets": true
+}
