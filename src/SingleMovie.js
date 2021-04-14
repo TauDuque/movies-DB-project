@@ -1,29 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { API_ENDPOINT } from "./context";
+import { useFetch } from "./useFetch";
+const defaultImg =
+  "https://upload.wikimedia.org/wikipedia/commons/f/fc/No_picture_available.png";
 
 const SingleMovie = () => {
   const { id } = useParams();
-  const [movie, setMovie] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState({ show: false, msg: "" });
-
-  const fetchMovie = async (url) => {
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
-    if (data.Response === "False") {
-      setError({ show: true, msg: data.Error });
-      setLoading(false);
-    } else {
-      setMovie(data);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchMovie(`${API_ENDPOINT}&i=${id}`);
-  }, [id]);
+  const { error, loading, data: movie } = useFetch(`&i=${id}`);
 
   if (loading) {
     return <div className="loading"></div>;
@@ -52,21 +36,63 @@ const SingleMovie = () => {
   } = movie;
   return (
     <section className="single-movie">
-      <img src={poster} alt={title} />
+      <img src={poster === "N/A" ? defaultImg : poster} alt={title} />
       <div className="single-movie-info">
         <h2>{title}</h2>
+        <p>
+          {awards === "N/A" ? (
+            <p className="little-info">no info available</p>
+          ) : (
+            awards
+          )}{" "}
+        </p>
         <div className="extra-info">
           <p className="little-info">direct by:</p>
-          <h4>{director}</h4>
-        </div>
-        <div className="extra-info">
+          <h4>
+            {director === "N/A" ? <p className="little-info">---</p> : director}
+          </h4>
           <p className="little-info">genre:</p>
-          <h4>{genre}</h4>
+          <h4>
+            {genre === "N/A" ? (
+              <p className="little-info">no info available</p>
+            ) : (
+              genre
+            )}
+          </h4>
         </div>
-        <p className="plot-info">{plot}</p>
-      <Link to="/" className="btn">
-          back to search page
-        </Link>
+        <p className="plot-info">
+          {plot === "N/A" ? (
+            <p className="little-info">no info available</p>
+          ) : (
+            plot
+          )}
+        </p>
+        <div className="extra-info">
+          <p className="little-info">duration:</p>
+          <h4>
+            {duration === "N/A" ? <p className="little-info">---</p> : duration}
+          </h4>
+          <p className="little-info"></p>
+          <h4>{year === "N/A" ? <p className="little-info"></p> : year}</h4>
+        </div>
+        <p style={{ color: "darkslategrey", fontFamily: "helvetica" }}>
+          {cast === "N/A" ? (
+            <p className="little-info">no info available</p>
+          ) : (
+            cast
+          )}
+        </p>
+        <div className="extra-info">
+          <p className="little-info">writen by:</p>
+          <h4>
+            {script === "N/A" ? <p className="little-info">---</p> : script}
+          </h4>
+        </div>
+        <div>
+          <Link to="/" className="btn">
+            search page
+          </Link>
+        </div>
       </div>
     </section>
   );
